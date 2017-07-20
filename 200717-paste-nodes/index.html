@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Paste nodes</title>
+
+    <style>
+        
+        html,body {
+            min-height: 100%;
+            font-size: 62.5%;
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        div {
+            background-color: red;
+            border: 1px solid blue;
+            flex: 0 0 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+</body>
+</html>
+
+<script>
+    document.addEventListener('paste', (e) => {
+        console.log(e.clipboardData.getData('text/plain'));
+
+        document.body.appendChild(document.createElement('div'));
+    });
+
+    document.addEventListener('keyup', (e) => {
+
+        if(e.keyCode == 8){
+            document.body.removeChild(document.body.lastChild);
+        }
+    });
+</script>
