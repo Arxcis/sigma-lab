@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bookmap</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style type="text/css">
+        
+        html, body {
+            height: 100%;
+            display: flex;
+            width: 100%;
+            margin: 0;
+            font-size: 62.5%;
+        }
+
+
+        /* Bookmap component */
+
+        .bookmap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .box-alert {
+            color: white;
+            text-align: center;
+            font-size: 2.6rem;
+            background-color: #e66e33;
+            width: 100%;
+            display: none;
+        }
+
+        .sigma-link-level {
+
+        }
+
+        .sigma-link-node {
+
+        }
+
+
+        /* Left menu component */
+
+        .sigma-link-menu {
+            margin: 0;
+            background-color: #24292e;
+            flex: 0 0 300px;
+            color: rgba(255,255,255,0.75);
+            padding: 20px 0px 0px 0px;
+            font-size: 1.6rem;
+        }
+
+        @keyframes fresh-link {
+            from { background-color:  rgba(255,255,255,0.75); }
+            to {   background-color:  rgba(255,255,255, 0);   }
+        }
+
+        .sigma-link {
+            list-style-type: none;
+            padding: 10px 10px 10px 10px;
+            cursor: pointer;
+            animation-name: fresh-link;
+            animation-duration: 1.5s;
+            display: flex;
+        }
+
+        .sigma-file label {
+            cursor: pointer; 
+        }
+
+        .sigma-link:hover {
+            color: #fff;
+        }
+
+        .sigma-link-text{
+            flex: 1;
+        }
+
+        .sigma-delete {
+            display: none;
+            background-color: #d9534f;
+            height: 20px;
+            width: 20px;
+            flex: 0 0 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+        .sigma-file {
+            background-color:  rgba(255,255,255,0.1); 
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <ul id="sigma-link-menu-left" class="sigma-link-menu">
+
+        <li class="sigma-link sigma-file"> 
+            <label for="input-upload-bookmark">Upload your bookmark.html</label>
+            <input id="input-upload-bookmark" type="file" name="upload-bookmarks" style="display: none;"> 
+        </li>
+
+    </ul>
+
+    <main class="bookmap">  
+
+        <div id="bookmap-box-alert" class="box-alert">Inactive alertbox</div>
+
+    </main>
+
+</body>
+</html>
+
+<script>
+    let timeoutHandle = null;
+
+    // @doc clipboard events - https://w3c.github.io/clipboard-apis/#clipboard-event-interfaces
+    document.addEventListener('paste', (e) => {
+
+        let clipData = e.clipboardData.getData('text/plain');
+        let alertBox = document.getElementById('bookmap-box-alert');
+        let newLink  = document.createElement('li');
+        let leftMenu = document.getElementById('sigma-link-menu-left');
+
+        console.log('pasted: ', clipData);
+
+        alertBox.style.display = 'block';
+        alertBox.innerHTML     = `Pasted: ${clipData}..`;
+
+        newLink.classList.add('sigma-link');
+        newLink.innerHTML = `<div class="sigma-link-text">${ clipData.substring(0, 30) }..</div> <div class="sigma-delete"><i class="fa fa-times" aria-hidden="true"></i></div>`;
+        newLink.setAttribute('data-uri', clipData);
+
+        let deleteButton = newLink.querySelector('.sigma-delete');
+
+        newLink.addEventListener('mouseover', (e) => {
+            deleteButton.style.display = 'block';
+        });
+
+        newLink.addEventListener('mouseleave', (e) => {
+            deleteButton.style.display = 'none';
+        })
+
+        deleteButton.addEventListener('click', (e) => {
+            alertBox.style.display = 'block';
+            alertBox.innerHTML = `Deleted: ${ clipData }..`;
+            leftMenu.removeChild(newLink);
+                
+            window.clearTimeout(timeoutHandle);
+            timeoutHandle = setTimeout(() => { 
+                alertBox.style.display = 'none'; 
+            }, 1500);
+        });
+
+        leftMenu.append(newLink);
+
+        window.clearTimeout(timeoutHandle);
+        timeoutHandle = setTimeout(() => { 
+            alertBox.style.display = 'none'; 
+        }, 1500);
+    });
+
+</script>
