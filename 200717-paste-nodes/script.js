@@ -128,6 +128,7 @@ function getNewNode(rowid, colid){
     let node  = document.createElement('div');
     node.classList.add('node', 'selected');
     node.id = `node${rowid}_${colid}`;
+    node.innerHTML = `Node${rowid}_${colid}`;
 
     node.onclick = (e) => {
         app.activeNode.classList.remove('selected');
