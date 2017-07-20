@@ -21,8 +21,11 @@ let app = {
 document.addEventListener('DOMContentLoaded', (e) => {
     // Init app
     app.container   = document.body;
-    app.activeNode  = document.getElementById('start-node');
-    app.activeLevel = document.getElementById('level0');
+    app.activeLevel = getNewLevel(0);
+    app.activeNode  = getNewNode(0,0);
+
+    app.container.appendChild(app.activeLevel);
+    app.activeLevel.appendChild(app.activeNode);
 
     // Add event listeneres
     document.addEventListener('keyup', (e) => {
@@ -45,7 +48,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
         else if (code === key.UP) {
             app.activeRow = clamp(app.activeRow - 1, 0, maxRow(app));
             app.activeLevel = app.container.children[app.activeRow];
-            app.activeColumn = clamp(app.activeColumn, 0, maxColumn(app));
+
+            if (maxColumn(app) > 0) {
+                app.activeColumn = (Math.floor(maxColumn(app) / 2 ));
+
+            }
+            else 
+                app.activeColumn = 0;
 
             navigated = true;
         }
@@ -53,10 +62,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
         else if (code === key.DOWN) {
             app.activeRow   = clamp(app.activeRow + 1, 0, maxRow(app));
             app.activeLevel = app.container.children[app.activeRow];
-            app.activeColumn = clamp(app.activeColumn, 0, maxColumn(app));
+
+            if (maxColumn(app) > 0) {
+                app.activeColumn = (Math.floor(maxColumn(app) / 2 ));
+            
+            }
+            else 
+                app.activeColumn = 0;
 
             navigated = true;
         }
+        printAppData(app);
 
         // Toggle selected node
         if (navigated) {            
@@ -64,7 +80,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
             app.activeNode = app.activeLevel.children[app.activeColumn];
             app.activeNode.classList.add('selected');
         }
-        printAppData(app);
     });
 
     document.addEventListener('paste', (e) => {
@@ -73,23 +88,25 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         if (app.activeRow > maxRow(app)) {
         
+
             app.activeNode.classList.remove('selected');
+            app.activeColumn = 0;
             app.activeNode = getNewNode(app.activeRow, app.activeColumn);
 
 
             app.activeLevel = getNewLevel(app.activeRow);
             app.activeLevel.appendChild(app.activeNode);
             app.container.appendChild(app.activeLevel);
-            app.activeColumn = 0;
         }
         else {
+
             app.activeNode.classList.remove('selected');
-            app.activeNode = getNewNode(app.activeRow, app.activeColumn);
 
             app.activeLevel = app.container.children[app.activeRow];
 
-            app.activeColumn = clamp(app.activeColumn, 0, maxColumn(app));
-            app.activeLevel.insertBefore(app.activeNode, app.activeLevel.children[app.activeColumn].nextSibling);
+            app.activeColumn = app.activeLevel.children.length;
+            app.activeNode = getNewNode(app.activeRow, app.activeColumn);
+            app.activeLevel.appendChild(app.activeNode);
         }
 
         app.activeRow = clamp(app.activeRow, 0, maxRow(app));
@@ -116,6 +133,13 @@ function getNewNode(rowid, colid){
         app.activeNode.classList.remove('selected');
         app.activeNode = e.target;
         app.activeNode.classList.add('selected');
+
+        console.log('click ', rowid, colid);
+
+        app.activeRow = rowid;
+        app.activeColumn = colid;
+        app.activeLevel = app.container.children[app.activeRow];
+        printAppData(app);
     }
     return node;
 }
@@ -142,5 +166,4 @@ function printAppData(app){
     console.log('maxRow',       maxRow(app));
     console.log('container children',  app.container.children.length);
     console.log('level chilrdren ', app.activeLevel.children.length);
-    console.log('activeLevel', app.activeLevel.id);
 }
