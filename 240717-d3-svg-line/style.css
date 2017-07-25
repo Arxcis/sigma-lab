@@ -1,0 +1,11 @@
+
+
+.square-in-the-middle {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: green;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}

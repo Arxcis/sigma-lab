@@ -1,0 +1,44 @@
+html, body {
+    min-height: 100%;
+    font-size: 62.5%;
+    display: flex;
+    flex-direction: column;
+}
+
+div.level {
+    background-color: white;
+    border: 1px solid blue;
+    flex: 0 0 100px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+div.node {
+    border-radius: 25%;
+    margin: 0px 20px 0px 20px;
+    flex: 0 0 50px;
+    height: 50px;
+    background-color: grey;
+    
+    font-size: 10px;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.node:hover{
+    cursor: pointer;;
+}
+
+div.level.selected {
+    background-color: rgb(255, 215, 248);
+}
+div.node.selected {
+    background-color: #4CAF50;
+}
