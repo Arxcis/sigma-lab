@@ -5,6 +5,7 @@
     <title>Bezier madness</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="./trail.js"></script>
+    <script src="./svgOverlay.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -28,33 +29,48 @@
 
     document.addEventListener('DOMContentLoaded', e => {
         
-        const trail = makeTrail();
-        let level   = makeLevel(trail);
-        let node    = makeNode(trail);
-  
+        // Make stuff
+        const trail = makeTrail(document.querySelector('main'));
+        const svg   = makeSvgContainer();
+
+        let level = makeLevel(trail);
+        let node  = makeNode(trail);
+
+        // Run some functions
         setActiveLevel(trail, level);
         setActiveNode(trail, node);
 
-        trail.container.appendChild(level);
-        trail.activeLevel.appendChild(node);
+
+        // Event
+        snapBoundingRect(svg, trail.container);
+       
+        onChange(trail, () => {
+            snapBoundingRect(svg, trail.container);
+            console.log('Snapping....');
+        });
+
+
+        // Append stuff to DOM
+        document.body.appendChild(svg);
+        appendLevel(trail, level);
+        appendNode(trail, node);
 
         document.addEventListener('paste', e => { 
 
             if (!(trail.activeLevel.nextSibling)) {
                 
-
                 let level = makeLevel(trail);
                 let node = makeNode(trail);
 
                 setActiveLevel(trail, level);
                 setActiveNode(trail, node);
 
-                trail.container.appendChild(level);
-                trail.activeLevel.appendChild(node);
+                appendLevel(trail, level);
+                appendNode(trail, node);
             }
             else {
                 let node = makeNode(trail);
-                trail.activeLevel.appendChild(node);
+                appendNode(trail, node);
                 setActiveNode(trail, node);
             }
         });
@@ -62,7 +78,8 @@
 
         // @doc https://www.w3schools.com/jsref/prop_element_previouselementsibling.asp
         document.addEventListener('keydown', e => {
-            console.log(e.keyCode);
+            //console.log(e.keyCode);
+            
             if (e.keyCode == key.UP) {
                 let prevLevel = trail.activeLevel.previousElementSibling;
 
