@@ -15,23 +15,85 @@
     <footer></footer>
 </body>
 <script>
+    const key = {
+        ESC:   8,
+        LEFT: 37, 
+        RIGHT:39,
+        UP:   38,
+        DOWN: 40,
+        ENTER: 13,
+    }
 
     document.addEventListener('DOMContentLoaded', e => {
         
-        let trail = makeTrail();
+        const trail = makeTrail();
+        let level   = makeLevel(trail);
+        let node    = makeNode(trail);
+  
+        setActiveLevel(trail, level);
+        setActiveNode(trail, node);
 
-        makeLevel(trail);
-        makeNode(trail);
+        trail.container.appendChild(level);
+        trail.activeLevel.appendChild(node);
 
         document.addEventListener('paste', e => { 
 
             if (!(trail.activeLevel.nextSibling)) {
-                makeLevel(trail);
-                makeNode(trail);
+                
+
+                let level = makeLevel(trail);
+                let node = makeNode(trail);
+
+                setActiveLevel(trail, level);
+                setActiveNode(trail, node);
+
+                trail.container.appendChild(level);
+                trail.activeLevel.appendChild(node);
             }
             else {
-                setActiveLevel(trail, trail.activeLevel.nextSibling);
-                makeNode(trail);
+                let node = makeNode(trail);
+                trail.activeLevel.appendChild(node);
+                setActiveNode(trail, node);
+            }
+        });
+
+
+        // @doc https://www.w3schools.com/jsref/prop_element_previouselementsibling.asp
+        document.addEventListener('keydown', e => {
+            console.log(e.keyCode);
+            if (e.keyCode == key.UP) {
+                let prevLevel = trail.activeLevel.previousElementSibling;
+
+                if (prevLevel) {
+                    setActiveLevel(trail, prevLevel);
+                }
+            }
+
+            else if (e.keyCode == key.DOWN) {
+                let nextLevel = trail.activeLevel.nextElementSibling;
+
+                if (nextLevel) {
+                    console.log(nextLevel);
+                    setActiveLevel(trail, nextLevel);
+                }
+            }
+
+            else if (e.keyCode == key.ENTER) {
+
+                if (trail.activeLevel == trail.activeNode.parentElement) {
+                    let nextNode = trail.activeNode.nextElementSibling;
+                    
+                    if (trail.activeNode.nextElementSibling) {
+                        setActiveNode(trail, nextNode);
+                    }
+                    else {
+                        setActiveNode(trail, trail.activeLevel.firstChild);
+                    }
+
+                }  
+                else {
+                    setActiveNode(trail, trail.activeLevel.firstChild);
+                }
             }
         });
 

@@ -36,6 +36,10 @@ div.node:hover{
     cursor: pointer;;
 }
 
+div.level:hover {
+    cursor: pointer;
+}
+
 div.level.selected {
     background-color: rgb(255, 215, 248);
 }
