@@ -29,6 +29,10 @@
                 makeLevel(trail);
                 makeNode(trail);
             }
+            else {
+                setActiveLevel(trail, trail.activeLevel.nextSibling);
+                makeNode(trail);
+            }
         });
 
     });

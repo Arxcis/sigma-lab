@@ -9,6 +9,12 @@ function makeTrail() {
     }    
 }
 
+function setActiveLevel(trail, newActiveLevel) {
+    trail.activeLevel.classList.remove('selected');
+    trail.activeLevel = newActiveLevel;
+    trail.activeLevel.classList.add('selected');
+}
+
 function makeLevel(trail) {
     let level = document.createElement('div');
     level.classList.add('level', 'selected');
