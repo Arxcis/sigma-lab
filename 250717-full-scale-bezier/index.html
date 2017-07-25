@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <header><h1>Hellooooooo.....</h1></header>
     <main>
         
     </main>
@@ -29,6 +28,7 @@
 
     document.addEventListener('DOMContentLoaded', e => {
         
+
         // Make stuff
         const trail = makeTrail(document.querySelector('main'));
         const svg   = makeSvgContainer();
@@ -55,6 +55,9 @@
         appendLevel(trail, level);
         appendNode(trail, node);
 
+        //
+        // PASTE HANDLING
+        //
         document.addEventListener('paste', e => { 
 
             if (!(trail.activeLevel.nextSibling)) {
@@ -75,7 +78,9 @@
             }
         });
 
-
+        //
+        // KEY HANDLING
+        //
         // @doc https://www.w3schools.com/jsref/prop_element_previouselementsibling.asp
         document.addEventListener('keydown', e => {
             //console.log(e.keyCode);

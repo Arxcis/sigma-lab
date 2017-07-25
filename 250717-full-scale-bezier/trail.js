@@ -8,6 +8,7 @@ function makeTrail(_container) {
         container: _container,
         activeLevel: dummy,
         activeNode: dummy,
+        nodePairs: new Array(),
         onChangeHandler: () => console.log('default...'),
     }    
     return trail;

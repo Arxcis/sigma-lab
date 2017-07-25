@@ -22,5 +22,10 @@ function snapBoundingRect(svg, container)
     svg.setAttribute('width',  boundingRect.width);
     svg.setAttribute('height', boundingRect.height);
 
+
     //console.log(svg.style.top, svg.style.left, svg.getAttribute('width'), svg.getAttribute('height'))
+}
+
+function updateLines(svg, nodePairs) {
+    
 }
