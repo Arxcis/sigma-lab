@@ -16,12 +16,14 @@
 </body>
 <script>
     const key = {
-        ESC:   8,
+        ESC:  27,
         LEFT: 37, 
         RIGHT:39,
         UP:   38,
         DOWN: 40,
         ENTER: 13,
+
+        BACKSPACE: 8,
     }
 
     document.addEventListener('DOMContentLoaded', e => {
@@ -81,9 +83,9 @@
             else if (e.keyCode == key.ENTER) {
 
                 if (trail.activeLevel == trail.activeNode.parentElement) {
+
                     let nextNode = trail.activeNode.nextElementSibling;
-                    
-                    if (trail.activeNode.nextElementSibling) {
+                    if (nextNode) {
                         setActiveNode(trail, nextNode);
                     }
                     else {
@@ -91,6 +93,22 @@
                     }
 
                 }  
+                else {
+                    setActiveNode(trail, trail.activeLevel.firstChild);
+                }
+            }
+
+            else if (e.keyCode == key.BACKSPACE) {
+                if (trail.activeLevel == trail.activeNode.parentElement) {
+                    
+                    let prevNode = trail.activeNode.previousElementSibling;
+                    if (prevNode) {
+                        setActiveNode(trail, prevNode);
+                    }
+                    else {
+                        setActiveNode(trail, trail.activeLevel.lastChild);
+                    }  
+                }
                 else {
                     setActiveNode(trail, trail.activeLevel.firstChild);
                 }
