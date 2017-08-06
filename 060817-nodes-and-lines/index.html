@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bezier madness</title>
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link   rel="stylesheet"  href="trail.css">
+
+    <style>
+        html, body {
+            min-height: 100%;
+            font-size: 62.5%;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        
+    </main>
+    <footer></footer>
+</body>
+<script type="module">
+    'use strict';
+
+    import { Trail } from './trail.js';
+
+    document.addEventListener('DOMContentLoaded', e => {
+        
+        // Make stuff
+        const trail       = new Trail;      // Extends HTML Element
+        document.body.appendChild(trail);
+
+      //  const edgeOverlay = new __svg__EdgeOverlay(); // Extends SVG Element
+
+        // SnapBoundingRect every time the trail-update event is dispatched.
+     //   edgeOverlay.snapBoundingRect(trail.parentElement);
+       
+      //  trail.addEventListener('trail-update', e => {
+       //     edgeOverlay.snapBoundingRect(trail.parentElement);
+      //      console.log('Snapping....');
+      //  })
+
+        // Append stuff to DOM
+      //  document.body.appendChild(svg);
+
+    });
+
+
+</script>
+</html>

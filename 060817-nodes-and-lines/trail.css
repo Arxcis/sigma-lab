@@ -1,0 +1,46 @@
+
+/*                              */
+/* -------- .level         */
+/*                              */
+.level {
+    background-color: white;
+    border: 1px solid blue;
+    flex: 0 0 100px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.level.active {
+    background-color: rgb(255, 215, 248);
+}
+.level:hover{
+    cursor: pointer;
+}
+
+/*                             */
+/* ------- .node          */
+/*                             */
+.node {
+    border-radius: 25%;
+    margin: 0px 20px 0px 20px;
+    flex: 0 0 50px;
+    height: 50px;
+    background-color: grey;
+    
+    font-size: 10px;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.node:hover {
+    cursor: pointer;
+}
+.node.active {
+    background-color: #4CAF50;
+}
+`;
