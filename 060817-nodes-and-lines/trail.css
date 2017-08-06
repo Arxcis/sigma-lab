@@ -27,7 +27,7 @@
     margin: 0px 20px 0px 20px;
     flex: 0 0 50px;
     height: 50px;
-    background-color: grey;
+    backgrousnd-color: grey;
     
     font-size: 10px;
     color: white;
@@ -43,4 +43,7 @@
 .node.active {
     background-color: #4CAF50;
 }
-`;
+
+.node.linkable {
+    border: red;
+}

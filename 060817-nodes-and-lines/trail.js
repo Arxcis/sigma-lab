@@ -18,7 +18,7 @@ export class Trail extends HTMLElement {
         super();
 
         //
-        // PRIVATE SCOPE
+        // _PRIVATE SCOPE
         // 
         this._activeLevel = null;
         this._activeNode  = null;
@@ -33,6 +33,7 @@ export class Trail extends HTMLElement {
         //
         {
             let level = this._makeLevel();
+            let anotherLevel = this._makeLevel();
             let node  = this._makeNode();
 
             this._printData();
@@ -43,7 +44,9 @@ export class Trail extends HTMLElement {
             this._printData();
 
             this.shadow.appendChild(level);
+            this.shadow.appendChild(anotherLevel);
             this._activeLevel.appendChild(node);
+
 
             this.dispatchEvent(TRAIL_UPDATE);
         }
@@ -51,7 +54,16 @@ export class Trail extends HTMLElement {
         //
         // ON PASTE 
         //
-        this.shadow.addEventListener('paste', e => { 
+        document.addEventListener('paste', e => { 
+
+            //
+            // @brief We do this to always make sure there is an empty level at the bottom of the 
+            //        page, which can be expanded into.
+            //
+            let anotherLevel = this._makeLevel()
+            if(this._activeLevel.children.length == 0) {
+                this.shadow.appendChild(anotherLevel);
+            }
 
             let node = this._makeNode();
             this._setActiveNode(node);
@@ -64,10 +76,7 @@ export class Trail extends HTMLElement {
         //
         // ON KEY DOWN
         //
-        this.shadow.addEventListener('keydown', e => {
-            //console.log(e.keyCode);
-            
-
+        document.addEventListener('keydown', e => {
             //
             // @brief MOVE up and down in the trail, switching levels.
             //
@@ -92,7 +101,6 @@ export class Trail extends HTMLElement {
             //          click BACKSPACE to move left.
             //
             else if (e.keyCode == key.ENTER) {
-
                 if (this._activeLevel == this._activeNode.parentElement) {
 
                     let nextNode = this._activeNode.nextElementSibling;
@@ -100,16 +108,15 @@ export class Trail extends HTMLElement {
                         this._setActiveNode(nextNode);
                     }
                     else {
-                        this._setActiveNode(this._activeNode.firstChild);
+                        this._setActiveNode(this._activeLevel.firstChild);
                     }
                 }  
                 else {
-                    this._setActiveNode(this._activeNode.firstChild);
+                    this._setActiveNode(this._activeLevel.firstChild);
                 }
             }
 
             else if (e.keyCode == key.BACKSPACE) {
-
                 if (this._activeLevel == this._activeNode.parentElement) {
                     
                     let prevNode = this._activeNode.previousElementSibling;
@@ -134,6 +141,7 @@ export class Trail extends HTMLElement {
 
     _makeLevel() {
         let level = document.createElement('div');
+        level.setAttribute('id', `level_${_makeId()}`);
         level.classList.add('level');
 
         level.addEventListener('click', e => {
@@ -144,6 +152,7 @@ export class Trail extends HTMLElement {
 
     _makeNode() {
         let node  = document.createElement('div');
+        node.setAttribute('id', `node_${_makeId()}`);
         node.classList.add('node');
 
         node.addEventListener('click', e => {
@@ -169,6 +178,20 @@ export class Trail extends HTMLElement {
 }
 
 customElements.define('custom-trail', Trail);
+
+//
+// @brief this function was copy pasted straight from this web-site
+// @doc https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+//
+function _makeId() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 
 
 let CSS = `
