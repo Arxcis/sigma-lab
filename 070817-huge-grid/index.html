@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style>
+        body{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        main {
+            margin: auto;
+            width: 5000px;
+            display: grid;
+            grid-template-columns: repeat(100, 1fr);
+        }
+        
+        button {
+            outline: none;
+            border: none;
+            background-color: none;
+        }
+
+        .cell {
+            background-color: white;
+
+            border-radius: 5px;
+            height: 50px;
+
+            cursor: pointer;
+        }
+
+        .cell:hover {
+            background-color: hotpink;
+        }
+
+        .cell:focus {
+            background-color: hotpink;
+
+        }
+
+        .node {
+            background-color: blue;
+        }
+
+    </style>
+</head>
+<body>
+
+    <main id="content">
+    </main>
+
+
+<script>
+    let mousex = 0;
+    let mousey = 0;
+
+    window.addEventListener('DOMContentLoaded', e => {
+        for (let i = 0; i < 10000; ++i) {
+            let div = document.createElement('button');
+            div.classList.add('cell');
+
+            div.addEventListener('click', e => {
+                div.focus();
+            })
+
+            div.id = i;
+
+            document.getElementById('content').appendChild(div);
+        }
+    });
+
+    window.addEventListener('paste', e => {
+
+        // @doc https://stackoverflow.com/questions/8813051/determine-which-element-the-mouse-pointer-is-on-top-of-in-javascript
+        let hoverElement = document.elementFromPoint(mousex, mousey);
+
+        hoverElement.classList.add('node');
+        hoverElement.blur();
+    });
+
+    window.addEventListener('mousemove', e => {
+        mousex = e.clientX;
+        mousey = e.clientY;
+    })
+
+
+</script>
+</body>
+</html>
